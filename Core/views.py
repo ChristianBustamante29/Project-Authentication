@@ -14,19 +14,21 @@ from .forms import TareaForm
 
 @login_required
 def lista_tareas(request):
-    tasks = Task.objects.all()  # Lista todas las tareas
+    tasks = Task.objects.filter(user=request.user)
     return render(request, 'lista_tareas.html', {'tasks': tasks})
 
+@login_required
 def agregar_tarea(request):
     if request.method == "POST":  # Verifica que el método sea POST
         title = request.POST.get('title')  # Obtén el título de la tarea desde el formulario
         if title:  # Asegúrate de que el título no esté vacío
-            Task.objects.create(title=title, completed=False)  # Crea la nueva tarea
+            Task.objects.create(title=title, completed=False, user=request.user)  # Crea la nueva tarea
         return redirect('lista_tareas')  # Redirige a la lista de tareas
     return render(request, 'agregar_tarea.html')  # Muestra el formulario
 
+@login_required
 def eliminar_tarea(request, task_id):
-    tarea = Task.objects.get(id=task_id)
+    tarea = Task.objects.get(id=task_id, user=request.user)
     tarea.delete()
     return redirect('lista_tareas')
 

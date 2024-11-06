@@ -13,6 +13,8 @@ class PasswordReset(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=100)  # Campo para el título de la tarea
     completed = models.BooleanField(default=False)  # Campo para el estado de la tarea (por defecto no completada)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relación con el usuario
+
 
     def __str__(self):
         return self.title
