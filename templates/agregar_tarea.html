@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Tarea</title>
+</head>
+<body>
+    <h1>Agregar Tarea</h1>
+    <form method="POST">
+        {% csrf_token %}  <!-- Protege el formulario contra ataques CSRF -->
+        <input type="text" name="title" placeholder="Nueva Tarea" required>  <!-- Campo para ingresar la tarea -->
+        <button type="submit">Agregar</button>  <!-- Botón para enviar el formulario -->
+    </form>
+    <a href="{% url 'lista_tareas' %}">Volver a la lista de tareas</a>
+</body>
+</html>
