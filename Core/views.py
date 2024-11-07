@@ -8,10 +8,29 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.urls import reverse
 from .models import *
+from .models import Task
+from .forms import TareaForm
+
 
 @login_required
-def Home(request):
-    return render(request, 'index.html')
+def lista_tareas(request):
+    tasks = Task.objects.filter(user=request.user)
+    return render(request, 'lista_tareas.html', {'tasks': tasks})
+
+@login_required
+def agregar_tarea(request):
+    if request.method == "POST":  # Verifica que el método sea POST
+        title = request.POST.get('title')  # Obtén el título de la tarea desde el formulario
+        if title:  # Asegúrate de que el título no esté vacío
+            Task.objects.create(title=title, completed=False, user=request.user)  # Crea la nueva tarea
+        return redirect('lista_tareas')  # Redirige a la lista de tareas
+    return render(request, 'agregar_tarea.html')  # Muestra el formulario
+
+@login_required
+def eliminar_tarea(request, task_id):
+    tarea = Task.objects.get(id=task_id, user=request.user)
+    tarea.delete()
+    return redirect('lista_tareas')
 
 def RegisterView(request):
 
@@ -66,7 +85,7 @@ def LoginView(request):
             # login user if login credentials are correct
             login(request, user)
 
-            return redirect('home')
+            return redirect('lista_tareas')
         else:
             messages.error(request, 'Nombre de usuario o contraseña incorrectos')
             return redirect('login')

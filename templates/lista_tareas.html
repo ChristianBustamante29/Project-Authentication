@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    <link rel="stylesheet" href="{% static "style2.css" %}">
+</head>
+<body>
+    <div class="container">
+        <div class="barra-superior">
+            <h1 style="color: white;">Lista de Tareas {{ user.username }}</h1>
+            <a href="{% url "logout" %}">Cerrar sesión</a>
+        </div>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ task.title }}
+                    <a href="{% url 'eliminar_tarea' task.id %}">Eliminar</a>
+                </li>
+            {% empty %}
+                <li>No hay tareas.</li>
+            {% endfor %}
+        </ul>
+        <a class="new-task" href="{% url 'agregar_tarea' %}">Agregar nueva tarea</a>
+    </div>
+</body>
+</html>
