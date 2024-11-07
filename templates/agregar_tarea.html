@@ -10,13 +10,13 @@
 <body>
     <div class="container">
         <div class="barra-superior">
-            <h1>Agregar Tarea</h1>
+            <h1 style="color: white;">Agregar Tarea</h1>
             <a href="{% url "logout" %}">Cerrar sesión</a>
         </div>
-        <form method="POST">
-            {% csrf_token %}  <!-- Protege el formulario contra ataques CSRF -->
-            <input type="text" name="title" placeholder="Nueva Tarea" required>  <!-- Campo para ingresar la tarea -->
-            <button type="submit">Agregar</button>  <!-- Botón para enviar el formulario -->
+        <form class="form2" method="POST">
+            {% csrf_token %} 
+            <input type="text" name="title" placeholder="Nueva Tarea" required>
+            <button type="submit">Agregar</button>
         </form>
 
         <a class="new-task" href="{% url 'lista_tareas' %}">Volver a la lista de tareas</a>
